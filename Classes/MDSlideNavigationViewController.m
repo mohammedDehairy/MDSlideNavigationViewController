@@ -26,6 +26,7 @@
 -(void)LoadLayerWithImage
 {
     
+    
     UIGraphicsBeginImageContext(self.visibleViewController.view.bounds.size);
     [self.visibleViewController.view.layer renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
@@ -41,6 +42,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)  name:UIDeviceOrientationDidChangeNotification  object:nil];
     // Do any additional setup after loading the view.
     animationLayer = [CALayer layer] ;
     CGRect layerFrame = self.view.frame;
@@ -51,8 +53,28 @@
     [animationLayer setContentsGravity:kCAGravityBottomLeft];
     [self.view.layer insertSublayer:animationLayer atIndex:0];
     animationLayer.delegate = self;
+    
+    
 }
-
+- (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
+{
+    return [NSNull null];
+}
+- (void)orientationChanged:(NSNotification *)notification{
+    
+    
+}
+-(void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+    CGRect layerFrame = self.view.bounds;
+    layerFrame.size.height = self.view.bounds.size.height-self.navigationBar.frame.size.height;
+    layerFrame.origin.y = self.navigationBar.frame.size.height+20;
+    animationLayer.frame = layerFrame;
+}
+-(void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -76,7 +98,7 @@
         CATransform3D rotationAndPerspectiveTransform = CATransform3DIdentity;
         rotationAndPerspectiveTransform.m34 = 1.0 / -1000;
         rotationAndPerspectiveTransform = CATransform3DMakeTranslation(self.view.frame.size.width, 0, 0);
-        [Animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DMakeTranslation(self.view.frame.size.width, 0, 0)]];
+        [Animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DMakeTranslation(self.view.bounds.size.width, 0, 0)]];
         [Animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeTranslation(0, 0, 0)]];
         [Animation setDuration:0.3];
         Animation.delegate = self;
@@ -119,7 +141,7 @@
         rotationAndPerspectiveTransform.m34 = 1.0 / -1000;
         rotationAndPerspectiveTransform = CATransform3DMakeTranslation(self.view.frame.size.width, 0, 0);
         [Animation setFromValue:[NSValue valueWithCATransform3D:CATransform3DIdentity]];
-        [Animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeTranslation(self.view.frame.size.width, 0, 0)]];
+        [Animation setToValue:[NSValue valueWithCATransform3D:CATransform3DMakeTranslation(self.view.bounds.size.width, 0, 0)]];
         [Animation setDuration:0.3];
         Animation.delegate = self;
         Animation.removedOnCompletion = NO;

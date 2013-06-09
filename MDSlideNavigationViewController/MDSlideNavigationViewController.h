@@ -11,5 +11,6 @@
 @interface MDSlideNavigationViewController : UINavigationController
 {
         CALayer *animationLayer ;
+
 }
 @end
