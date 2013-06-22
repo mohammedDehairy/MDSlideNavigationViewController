@@ -23,7 +23,7 @@
     return self;
 }
 
--(void)LoadLayerWithImage
+-(void)loadLayerWithImage
 {
     
     
@@ -36,13 +36,13 @@
     [animationLayer setContents: (id)viewImage.CGImage];
     [animationLayer setHidden:NO];
     
-    viewImage = nil;
+    
     
 }
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)  name:UIDeviceOrientationDidChangeNotification  object:nil];
+    
     // Do any additional setup after loading the view.
     animationLayer = [CALayer layer] ;
     CGRect layerFrame = self.view.frame;
@@ -58,12 +58,10 @@
 }
 - (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
 {
-    return [NSNull null];
+    id<CAAction> action = (id)[NSNull null];
+    return action;
 }
-- (void)orientationChanged:(NSNotification *)notification{
-    
-    
-}
+
 -(void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     CGRect layerFrame = self.view.bounds;
@@ -71,10 +69,7 @@
     layerFrame.origin.y = self.navigationBar.frame.size.height+20;
     animationLayer.frame = layerFrame;
 }
--(void)viewDidLayoutSubviews{
-    [super viewDidLayoutSubviews];
-    
-}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -84,9 +79,9 @@
 {
     [animationLayer removeFromSuperlayer];
     [self.view.layer insertSublayer:animationLayer atIndex:0];
-    if(animated==YES)
+    if(animated)
     {
-        [self LoadLayerWithImage];
+        [self loadLayerWithImage];
         
         
         
@@ -125,9 +120,9 @@
 {
     [animationLayer removeFromSuperlayer];
     [self.view.layer insertSublayer:animationLayer above:self.view.layer];
-    if(animated==YES)
+    if(animated)
     {
-        [self LoadLayerWithImage];
+        [self loadLayerWithImage];
         
         
         
