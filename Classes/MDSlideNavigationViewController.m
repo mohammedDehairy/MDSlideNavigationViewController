@@ -58,8 +58,15 @@
 }
 - (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
 {
-    id<CAAction> action = (id)[NSNull null];
-    return action;
+    if(layer==animationLayer)
+    {
+        id<CAAction> action;
+        action = (id)[NSNull null];
+        return action;
+    }else
+    {
+        return [layer.actions objectForKey:event];
+    }
 }
 
 -(void)viewWillLayoutSubviews{
