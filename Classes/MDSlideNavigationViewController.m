@@ -46,9 +46,10 @@
     // Do any additional setup after loading the view.
     animationLayer = [CALayer layer] ;
     CGRect layerFrame = self.view.frame;
-    layerFrame.size.height = self.view.frame.size.height-self.navigationBar.frame.size.height;
-    layerFrame.origin.y = self.navigationBar.frame.size.height+20;
-    animationLayer.frame = layerFrame;
+    if (!self.navigationBarHidden){
+        layerFrame.size.height = self.view.frame.size.height-self.navigationBar.frame.size.height;
+        layerFrame.origin.y = self.navigationBar.frame.size.height+20;
+    }
     animationLayer.masksToBounds = YES;
     [animationLayer setContentsGravity:kCAGravityBottomLeft];
     [self.view.layer insertSublayer:animationLayer atIndex:0];
@@ -72,8 +73,10 @@
 -(void)viewWillLayoutSubviews{
     [super viewWillLayoutSubviews];
     CGRect layerFrame = self.view.bounds;
-    layerFrame.size.height = self.view.bounds.size.height-self.navigationBar.frame.size.height;
-    layerFrame.origin.y = self.navigationBar.frame.size.height+20;
+    if (!self.navigationBarHidden){
+        layerFrame.size.height = self.view.bounds.size.height-self.navigationBar.frame.size.height;
+        layerFrame.origin.y = self.navigationBar.frame.size.height+20;
+    }
     animationLayer.frame = layerFrame;
 }
 
