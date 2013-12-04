@@ -179,4 +179,9 @@
     
 }
 
+- (void)dealloc
+{
+    [animationLayer removeFromSuperlayer];
+}
+
 @end
